@@ -1,9 +1,10 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from "../pages/Home.vue";
 import SignUp from "../pages/SignUp.vue";
 import SignIn from "../pages/SignIn.vue";
 import EmailConfirmation from "../pages/EmailConfirmation.vue";
 
-export const routes = [
+const routes = [
   {
     name: "Home",
     path: "/",
@@ -24,4 +25,11 @@ export const routes = [
     path: "/email-confirmation",
     component: EmailConfirmation
   },
-]
+];
+
+const router = createRouter({ 
+  history: createWebHistory(),
+  routes
+});
+
+export default router;
