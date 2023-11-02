@@ -1,30 +1,33 @@
 import { ref } from "vue";
+import useSupabase from "./UseSupabase";
 
 const user = ref(null);
 
 export default function useAuthUser() {
-  const loginWithEmailAndPassword = async ({ email, password }) => {};
+	const { supabase } = useSupabase();
 
-  const loginWithSocialProvider = (provider) => {};
+	const signInWithEmailAndPassword = async ({ email, password }) => {};
 
-  const logout = async () => {};
+	const loginWithSocialProvider = (provider) => {};
 
-  const isUserLoggedIn = () => {};
+	const logout = async () => {};
 
-  const signUp = async ({ email, password, ...meta }) => {};
+	const isUserLoggedIn = () => {};
 
-  const updateUserProfile = async (data) => {};
+	const signUp = async ({ email, password, ...meta }) => {};
 
-  const sendEmailToResetPassword = async (email) => {};
+	const updateUserProfile = async (data) => {};
 
-  return {
-    user,
-    loginWithEmailAndPassword,
-    loginWithSocialProvider,
-    logout,
-    isUserLoggedIn,
-    signUp,
-    updateUserProfile,
-    sendEmailToResetPassword
-  }
+	const sendEmailToResetPassword = async (email) => {};
+
+	return {
+		user,
+		signInWithEmailAndPassword,
+		loginWithSocialProvider,
+		logout,
+		isUserLoggedIn,
+		signUp,
+		updateUserProfile,
+		sendEmailToResetPassword,
+	};
 }
