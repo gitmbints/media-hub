@@ -6,15 +6,34 @@ const user = ref(null);
 export default function useAuthUser() {
 	const { supabase } = useSupabase();
 
-	const signInWithEmailAndPassword = async ({ email, password }) => {};
+	const signInWithEmailAndPassword = async ({ email, password }) => {
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email,
+			password,
+		});
+
+		if (error) throw new Error(error);
+
+		user.value = data.user;
+
+		return user;
+	};
 
 	const loginWithSocialProvider = (provider) => {};
 
-	const logout = async () => {};
+	const logout = async () => {
+		const { error } = await supabase.auth.signOut();
+	};
 
-	const isUserLoggedIn = () => {};
+	const isUserLoggedIn = () => {
+		return !!user.value;
+	};
 
-	const signUp = async ({ email, password, ...meta }) => {};
+	const signUp = async ({ email, password }) => {
+		const { data, error } = await supabase.auth.signUp({ email, password });
+
+		if (error) throw new Error(error);
+	};
 
 	const updateUserProfile = async (data) => {};
 
