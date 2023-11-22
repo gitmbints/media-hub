@@ -9,7 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.0.18",
     "@supabase/supabase-js": "^2.38.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-vue-next": "^0.292.0",
+    "minireset.css": "^0.0.7",
+    "radix-vue": "^1.1.1",
+    "tailwind-merge": "^2.0.0",
+    "tailwindcss-animate": "^1.0.7",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
