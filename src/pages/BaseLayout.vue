@@ -25,7 +25,8 @@ const handleLogOut = async () => {
 
 <template>
 	<header
-		class="border border-solid border-x-0 border-t-0 border-slate-400 flex items-center justify-between px-8 py-3 text-sm">
+		class="border border-solid border-x-0 border-t-0 border-slate-400 flex items-center justify-between px-32 py-3 text-sm"
+	>
 		<div>
 			<router-link to="/" class="flex items-center space-x-2">
 				<HomeIcon class="h-6 w-6" />
@@ -37,13 +38,17 @@ const handleLogOut = async () => {
 				<AvatarProfile />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+				<DropdownMenuLabel>Paramètre de compte</DropdownMenuLabel>
+				<DropdownMenuSeparator />
+				<router-link to="/account">
+					<DropdownMenuItem>Mon compte</DropdownMenuItem>
+				</router-link>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem @click="handleLogOut">Déconnexion</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	</header>
-	<main class="pt-10">
+	<main class="max-w-7xl mx-auto pt-10 px-6">
 		<slot></slot>
 	</main>
 </template>

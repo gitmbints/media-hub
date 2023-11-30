@@ -4,6 +4,7 @@ import SignUp from "../pages/SignUp.vue";
 import SignIn from "../pages/SignIn.vue";
 import EmailConfirmation from "../pages/EmailConfirmation.vue";
 import useAuthUser from "../composable/UseAuthUser";
+import Account from "../pages/Account.vue";
 
 const routes = [
 	{
@@ -37,6 +38,14 @@ const routes = [
 		name: "EmailConfirmation",
 		path: "/email-confirmation",
 		component: EmailConfirmation,
+	},
+	{
+		name: "Account",
+		path: "/account",
+		meta: {
+			requiresAuth: true,
+		},
+		component: Account,
 	},
 ];
 

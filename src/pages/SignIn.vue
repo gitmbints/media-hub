@@ -42,14 +42,16 @@ const handleSignIn = async () => {
 					label="Email"
 					id="email"
 					name="email"
-					placeholder="Adresse e-mail" />
+					placeholder="Adresse e-mail"
+				/>
 				<InputGroup
 					v-model="user.password"
 					type="password"
 					label="Mot de passe"
 					id="password"
 					name="password"
-					placeholder="Mot de passe" />
+					placeholder="Mot de passe"
+				/>
 				<Button type="submit"> Se connecter </Button>
 			</form>
 

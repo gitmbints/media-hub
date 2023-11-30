@@ -11,8 +11,10 @@ defineEmits(["uploadFile"]);
 			name="upload-file"
 			id=""
 			accept="image/*, video/*"
-			class="w-full text-transparent file:border-transparent file:text-transparent file:bg-transparent file:h-32 cursor-pointer" />
+			class="w-full text-transparent file:border-transparent file:text-transparent file:bg-transparent file:h-40 cursor-pointer"
+		/>
 		<PlusIcon
-			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 cursor-pointer" />
+			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 cursor-pointer"
+		/>
 	</label>
 </template>

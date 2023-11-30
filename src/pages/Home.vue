@@ -12,6 +12,28 @@ const { supabase } = useSupabase();
 
 const file = ref(null);
 const medias = ref([]);
+const isLoading = ref(true);
+
+const getFile = async () => {
+	try {
+		const { data, error } = await supabase.storage
+			.from("media")
+			.list(`${user.value.id}/store`, {
+				limit: 100,
+				offset: 0,
+				sortBy: { column: "created_at", order: "asc" },
+			});
+
+		if (error) {
+			console.error(error);
+		}
+
+		medias.value = data;
+		isLoading.value = false;
+	} catch (error) {
+		console.error(error.message);
+	}
+};
 
 const uploadFile = async (event) => {
 	file.value = event.target.files[0];
@@ -23,7 +45,7 @@ async function storeMediaToSupabase(file) {
 	try {
 		const { error } = await supabase.storage
 			.from("media")
-			.upload(`${user.value.id}/${file.name}`, file);
+			.upload(`${user.value.id}/store/${file.name}`, file);
 
 		if (error) {
 			console.log(error);
@@ -33,60 +55,36 @@ async function storeMediaToSupabase(file) {
 	}
 }
 
-const getFile = async () => {
+const deleteMedia = async (fileName) => {
 	try {
-		const { data, error } = await supabase.storage
+		const { error } = await supabase.storage
 			.from("media")
-			.list(`${user.value.id}/`, {
-				limit: 100,
-				offset: 0,
-				sortBy: { column: "name", order: "asc" },
-			});
+			.remove([`${user.value.id}/store/${fileName}`]);
 
 		if (error) {
 			console.error(error);
 		}
 
-		medias.value = data;
+		await getFile();
 	} catch (error) {
 		console.error(error.message);
 	}
 };
-
-onMounted(async () => {
-	await getFile();
-});
-
-const imagesCount = computed(() => {
-	const images = medias.value.filter((media) =>
-		media.metadata.mimetype.includes("image/")
-	);
-	return images.length;
-});
 
 const mediasCount = computed(() => {
 	return medias.value.length;
 });
 
-const isLoading = computed(() => {
-	return mediasCount !== 0 ? false : true;
+const imagesCount = computed(() => {
+	const images = medias.value.filter((media) => {
+		return media.metadata.mimetype.includes("image/");
+	});
+	return images.length;
 });
 
-const deleteMedia = async (fileName) => {
-	try {
-		const { data, error } = await supabase.storage
-			.from("media")
-			.remove([`${user.value.id}/${fileName}`]);
-
-		if (error) {
-			console.error(error);
-		}
-
-		//const dataFileName = data[0].name.split("/")[1];
-	} catch (error) {
-		console.error(error.message);
-	}
-};
+onMounted(async () => {
+	await getFile();
+});
 </script>
 
 <template>
@@ -107,15 +105,16 @@ const deleteMedia = async (fileName) => {
 						</li>
 						<li class="flex items-center justify-between p-1">
 							<span>Vidéos</span>
-							<Badge class="bg-emerald-400">6</Badge>
+							<Badge class="bg-emerald-400">0</Badge>
 						</li>
 					</ul>
 				</aside>
 				<div
-					class="basis-10/12 p-4 pl-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4"
+					class="basis-10/12 p-4 pl-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 place-items-center"
 				>
 					<UploadButton @upload-file="uploadFile" />
-					<p v-if="isLoading" class="text-center">Loading...</p>
+					<p v-if="isLoading">Loading...</p>
+					<p v-else-if="mediasCount === 0">Aucun media sauvegardé</p>
 					<Media
 						v-else
 						v-for="media in medias"
