@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, inject, onMounted, ref } from "vue";
 import useAuthUser from "../composable/UseAuthUser";
 import BaseLayout from "./BaseLayout.vue";
 import { Badge } from "@/components/ui/badge";

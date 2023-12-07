@@ -7,22 +7,32 @@ export default function useAuthUser() {
 	const { supabase } = useSupabase();
 
 	const signInWithEmailAndPassword = async ({ email, password }) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
-		});
+		try {
+			const { data, error } = await supabase.auth.signInWithPassword({
+				email,
+				password,
+			});
 
-		if (error) throw new Error(error);
+			if (error) throw new Error(error);
 
-		user.value = data.user;
+			user.value = data.user;
 
-		return user;
+			return user;
+		} catch (error) {
+			console.error(error.message);
+		}
 	};
 
 	const loginWithSocialProvider = (provider) => {};
 
 	const logout = async () => {
-		const { error } = await supabase.auth.signOut();
+		try {
+			const { error } = await supabase.auth.signOut();
+
+			if (error) throw new Error(error);
+		} catch (error) {
+			console.error(error.message);
+		}
 	};
 
 	const isUserLoggedIn = () => {
@@ -30,9 +40,13 @@ export default function useAuthUser() {
 	};
 
 	const signUp = async ({ email, password }) => {
-		const { data, error } = await supabase.auth.signUp({ email, password });
+		try {
+			const { error } = await supabase.auth.signUp({ email, password });
 
-		if (error) throw new Error(error);
+			if (error) throw new Error(error);
+		} catch (error) {
+			console.error(error.message);
+		}
 	};
 
 	const updateUserProfile = async (data) => {};

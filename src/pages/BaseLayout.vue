@@ -10,10 +10,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "vue-router";
-import useAuthUser from "../composable/UseAuthUser";
+import useAuthUser from "@/composable/UseAuthUser";
+import { inject } from "vue";
 
 const { logout } = useAuthUser();
 const router = useRouter();
+
+const { username } = inject("username");
 
 const handleLogOut = async () => {
 	await logout();
@@ -42,6 +45,7 @@ const handleLogOut = async () => {
 				<DropdownMenuSeparator />
 				<router-link to="/account">
 					<DropdownMenuItem>Mon compte</DropdownMenuItem>
+					<span class="text-xs text-gray-400 px-2">{{ username }}</span>
 				</router-link>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem @click="handleLogOut">Déconnexion</DropdownMenuItem>
