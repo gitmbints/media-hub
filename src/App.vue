@@ -6,44 +6,61 @@ import useAuthUser from "./composable/UseAuthUser";
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
 
-const username = ref("");
+const profile = ref([]);
+const username = ref(null);
 
 const getUsername = async () => {
 	try {
-		if (user) {
-			const { data, error } = await supabase
-				.from("Profile")
-				.select("username")
-				.eq("user_id", user.value.id);
+		const { data, error } = await supabase
+			.from("Profile")
+			.select("*")
+			.eq("user_id", user.value.id);
 
-			if (error) {
-				throw new Error(error);
-			}
-
-			username.value = data[0]?.username;
+		if (error) {
+			throw new Error(error);
 		}
+
+		profile.value = data;
+		const [userData] = profile.value;
+		username.value = userData.username;
 	} catch (error) {
 		console.error(error.message);
 	}
 };
 
+/**
+ * TODO : Refactor and improve this function
+ */
 const updateUsername = async () => {
 	try {
-		console.log("update triggered");
+		const newUsername = username.value;
+
+		await getUsername();
+
+		const { data, error } = await supabase
+			.from("Profile")
+			.upsert({ id: profile.value[0].id, username: newUsername })
+			.select();
+
+		if (error) {
+			throw new Error(error);
+		}
+
+		username.value = data[0].username;
 	} catch (error) {
 		console.error(error.message);
 	}
 };
-
-provide("username", {
-	username,
-	updateUsername,
-});
 
 watch(user, async () => {
 	if (user.value) {
 		await getUsername();
 	}
+});
+
+provide("username", {
+	username,
+	updateUsername,
 });
 </script>
 
