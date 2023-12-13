@@ -21,32 +21,36 @@ const getUsername = async () => {
 		}
 
 		profile.value = data;
-		const [userData] = profile.value;
-		username.value = userData.username;
+		const userProfile = profile.value[0];
+		username.value = userProfile.username;
 	} catch (error) {
 		console.error(error.message);
 	}
 };
 
-/**
- * TODO : Refactor and improve this function
- */
-const updateUsername = async () => {
+const updateUsername = async (newUsername) => {
 	try {
-		const newUsername = username.value;
+		if (!profile.value.length) {
+			console.error("User profile is not loaded.");
+			return;
+		}
 
-		await getUsername();
+		const userProfile = profile.value[0];
 
-		const { data, error } = await supabase
+		if (!userProfile.id) {
+			console.error("User profile ID not found.");
+			return;
+		}
+
+		const { error } = await supabase
 			.from("Profile")
-			.upsert({ id: profile.value[0].id, username: newUsername })
-			.select();
+			.upsert({ id: userProfile.id, username: newUsername });
 
 		if (error) {
 			throw new Error(error);
 		}
 
-		username.value = data[0].username;
+		username.value = newUsername;
 	} catch (error) {
 		console.error(error.message);
 	}

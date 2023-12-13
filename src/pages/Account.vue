@@ -12,19 +12,19 @@ import Button from "../components/Button.vue";
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
 const { profile, getProfile } = useFetchFile();
-
 const { username, updateUsername } = inject("username");
-
-const file = ref(null);
 const MEDIA_URL =
 	"https://lybippqhemldffwoqxyd.supabase.co/storage/v1/object/public/media";
+
+const newUsername = ref("");
+const file = ref(null);
 
 const uploadProfile = async (event) => {
 	file.value = event.target.files[0];
 	await storeMediaToSupabase(file.value);
 };
 
-async function storeMediaToSupabase(file) {
+const storeMediaToSupabase = async (file) => {
 	try {
 		const { error } = await supabase.storage
 			.from("media")
@@ -36,7 +36,12 @@ async function storeMediaToSupabase(file) {
 	} catch (error) {
 		console.error(error.message);
 	}
-}
+};
+
+const handleUpdateUsername = async () => {
+	await updateUsername(newUsername.value);
+	newUsername.value = "";
+};
 
 onMounted(async () => {
 	await getProfile();
@@ -68,16 +73,16 @@ onMounted(async () => {
 					/>
 				</div>
 				<form
-					@submit.prevent="updateUsername"
+					@submit.prevent="handleUpdateUsername"
 					class="mt-10 flex flex-col justify-center space-y-5"
 				>
 					<InputGroup
 						type="text"
-						label="Nom d'utilsateur"
+						label="Nouveau nom d'utilsateur"
 						id="username"
 						name="username"
-						placeholder="Nom d'utilsateur"
-						v-model="username"
+						placeholder="Nouveau d'utilsateur"
+						v-model="newUsername"
 					/>
 					<Button type="submit">Enregister</Button>
 				</form>
