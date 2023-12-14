@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
 	type: String,
 	label: String,
@@ -8,7 +10,18 @@ const props = defineProps({
 	modelValue: String,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits({
+	"update:modelValue": null,
+});
+
+const value = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(value) {
+		emit("update:modelValue", value);
+	},
+});
 </script>
 <template>
 	<div class="flex flex-col">
@@ -21,7 +34,7 @@ const emit = defineEmits(["update:modelValue"]);
 			:type="props.type"
 			:name="props.name"
 			:placeholder="props.placeholder"
-			:value="modelValue"
-			@input="$emit('update:modelValue', $event.target.value)" />
+			v-model="value"
+		/>
 	</div>
 </template>

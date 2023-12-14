@@ -21,7 +21,7 @@ const getUsername = async () => {
 		}
 
 		profile.value = data;
-		const userProfile = profile.value[0];
+		const userProfile = profile.value.find(Boolean);
 		username.value = userProfile.username;
 	} catch (error) {
 		console.error(error.message);
@@ -35,7 +35,7 @@ const updateUsername = async (newUsername) => {
 			return;
 		}
 
-		const userProfile = profile.value[0];
+		const userProfile = profile.value.find(Boolean);
 
 		if (!userProfile.id) {
 			console.error("User profile ID not found.");
