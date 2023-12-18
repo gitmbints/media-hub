@@ -8,6 +8,7 @@ import useSupabase from "@/composable/UseSupabase";
 import useFetchFile from "@/composable/UseFetchFile";
 import InputGroup from "../components/InputGroup.vue";
 import Button from "../components/Button.vue";
+import { toast } from "vue3-toastify";
 
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
@@ -41,6 +42,14 @@ const storeMediaToSupabase = async (file) => {
 const handleUpdateUsername = async () => {
 	await updateUsername(newUsername.value);
 	newUsername.value = "";
+	notify();
+};
+
+const notify = () => {
+	toast("Nom modifié avec succès !", {
+		type: "success",
+		position: toast.POSITION.BOTTOM_RIGHT,
+	});
 };
 
 onMounted(async () => {
@@ -69,7 +78,7 @@ onMounted(async () => {
 						name="upload-profile"
 						id="upload-profile"
 						accept="image/*"
-						class="w-fit text-transparent file:border-none file:text-white file:bg-emerald-400 file:p-2.5 file:rounded file:font-medium file:text-sm cursor-pointer"
+						class="w-fit text-transparent file:border-none file:text-white file:bg-emerald-400 file:hover:bg-emerald-500 file:transition file:py-2.5 file:px-6 file:rounded file:font-medium file:text-sm cursor-pointer"
 					/>
 				</div>
 				<form
@@ -78,13 +87,13 @@ onMounted(async () => {
 				>
 					<InputGroup
 						type="text"
-						label="Nouveau nom d'utilsateur"
+						label="Nouveau nom"
 						id="username"
 						name="username"
-						placeholder="Nouveau d'utilsateur"
+						placeholder="John Doe"
 						v-model="newUsername"
 					/>
-					<Button type="submit">Enregister</Button>
+					<Button type="submit" class="!w-fit">Enregister</Button>
 				</form>
 			</div>
 		</BaseLayout>

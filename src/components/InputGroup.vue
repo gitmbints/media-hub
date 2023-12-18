@@ -35,6 +35,7 @@ const value = computed({
 			:name="props.name"
 			:placeholder="props.placeholder"
 			v-model="value"
+			required
 		/>
 	</div>
 </template>

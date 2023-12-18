@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import UploadButton from "@/components/UploadButton.vue";
 import useSupabase from "@/composable/UseSupabase";
 import Media from "@/components/Media.vue";
+import { toast } from "vue3-toastify";
 
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
@@ -35,10 +36,24 @@ const getFile = async () => {
 	}
 };
 
-const uploadFile = async (event) => {
-	file.value = event.target.files[0];
+const storeAndGetFile = async () => {
 	await storeMediaToSupabase(file.value);
 	await getFile();
+};
+
+const uploadFile = async (event) => {
+	file.value = event.target.files[0];
+	toast.promise(
+		storeAndGetFile,
+		{
+			pending: "Loading...",
+			success: "Fichier ajouté avec succès !",
+			error: "Erreur lors de l'ajout du fichier !",
+		},
+		{
+			position: toast.POSITION.BOTTOM_RIGHT,
+		}
+	);
 };
 
 async function storeMediaToSupabase(file) {
@@ -65,7 +80,17 @@ const deleteMedia = async (fileName) => {
 			console.error(error);
 		}
 
-		await getFile();
+		toast.promise(
+			getFile,
+			{
+				pending: "Loading...",
+				success: "Fichier supprimé avec succès !",
+				error: "Erreur lors de la suppression du fichier !",
+			},
+			{
+				position: toast.POSITION.BOTTOM_RIGHT,
+			}
+		);
 	} catch (error) {
 		console.error(error.message);
 	}
