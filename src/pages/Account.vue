@@ -78,7 +78,7 @@ onMounted(async () => {
 						name="upload-profile"
 						id="upload-profile"
 						accept="image/*"
-						class="w-fit text-transparent file:border-none file:text-white file:bg-emerald-400 file:hover:bg-emerald-500 file:transition file:py-2.5 file:px-6 file:rounded file:font-medium file:text-sm cursor-pointer"
+						class="w-fit text-transparent file:font-['Inter'] file:border-none file:text-white file:bg-emerald-400 file:hover:bg-emerald-500 file:transition file:py-2.5 file:px-6 file:rounded file:font-medium file:text-xs cursor-pointer"
 					/>
 				</div>
 				<form
@@ -90,7 +90,7 @@ onMounted(async () => {
 						label="Nouveau nom"
 						id="username"
 						name="username"
-						placeholder="John Doe"
+						placeholder="Nouveau nom ici..."
 						v-model="newUsername"
 					/>
 					<Button type="submit" class="!w-fit">Enregister</Button>
