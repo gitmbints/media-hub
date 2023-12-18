@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 supabase.auth.onAuthStateChange((event, session) => {
 	// the "event" is a string indicating what trigger the state change (ie. SIGN_IN, SIGN_OUT, etc)
-	// the session contains info about the current session most importanly the user dat
+	// the session contains info about the current session most importanly the user data
 	const { user } = useAuthUser();
 
 	// if the user exists in the session we're logged in

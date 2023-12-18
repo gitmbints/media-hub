@@ -8,8 +8,6 @@ import useSupabase from "@/composable/UseSupabase";
 import Media from "@/components/Media.vue";
 import { toast } from "vue3-toastify";
 
-const session = ref();
-
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
 
@@ -112,19 +110,11 @@ const imagesCount = computed(() => {
 
 onMounted(async () => {
 	await getFile();
-
-	supabase.auth.getSession().then(({ data }) => {
-		session.value = data.session;
-	});
-
-	supabase.auth.onAuthStateChange((_, _session) => {
-		session.value = _session;
-	});
 });
 </script>
 
 <template>
-	<div v-if="session">
+	<div v-if="user">
 		<BaseLayout>
 			<div class="flex flex-row">
 				<aside
