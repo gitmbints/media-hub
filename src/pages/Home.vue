@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import useAuthUser from "../composable/UseAuthUser";
 import BaseLayout from "./BaseLayout.vue";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +7,8 @@ import UploadButton from "@/components/UploadButton.vue";
 import useSupabase from "@/composable/UseSupabase";
 import Media from "@/components/Media.vue";
 import { toast } from "vue3-toastify";
+
+const session = ref();
 
 const { user } = useAuthUser();
 const { supabase } = useSupabase();
@@ -104,20 +106,29 @@ const imagesCount = computed(() => {
 	const images = medias.value.filter((media) => {
 		return media.metadata.mimetype.includes("image/");
 	});
+
 	return images.length;
 });
 
 onMounted(async () => {
 	await getFile();
+
+	supabase.auth.getSession().then(({ data }) => {
+		session.value = data.session;
+	});
+
+	supabase.auth.onAuthStateChange((_, _session) => {
+		session.value = _session;
+	});
 });
 </script>
 
 <template>
-	<div v-if="user">
+	<div v-if="session">
 		<BaseLayout>
 			<div class="flex flex-row">
 				<aside
-					class="basis-2/12 pr-4 py-4 border border-solid border-t-0 border-l-0 border-b-0 border-slate-400"
+					class="basis-2/12 pr-4 py-4 border border-solid border-t-0 border-l-0 border-b-0 border-slate-200"
 				>
 					<ul class="flex flex-col space-y-2">
 						<li class="flex items-center justify-between p-1">

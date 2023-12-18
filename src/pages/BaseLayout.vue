@@ -28,29 +28,31 @@ const handleLogOut = async () => {
 
 <template>
 	<header
-		class="border border-solid border-x-0 border-t-0 border-slate-400 flex items-center justify-between px-32 py-3 text-sm"
+		class="border border-solid border-x-0 border-t-0 border-slate-200 py-3 text-sm"
 	>
-		<div>
-			<router-link to="/" class="flex items-center space-x-2">
-				<HomeIcon class="h-6 w-6" />
-				<span>Accueil</span>
-			</router-link>
-		</div>
-		<DropdownMenu>
-			<DropdownMenuTrigger>
-				<AvatarProfile />
-			</DropdownMenuTrigger>
-			<DropdownMenuContent>
-				<DropdownMenuLabel>Paramètre de compte</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				<router-link to="/account">
-					<DropdownMenuItem>Mon compte</DropdownMenuItem>
-					<span class="text-xs text-gray-400 px-2">{{ username }}</span>
+		<div class="max-w-7xl mx-auto flex items-center justify-between">
+			<div>
+				<router-link to="/" class="flex items-center space-x-2">
+					<HomeIcon class="h-6 w-6" />
+					<span>Accueil</span>
 				</router-link>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem @click="handleLogOut">Déconnexion</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+			</div>
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<AvatarProfile />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuLabel>Paramètre de compte</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<router-link to="/account">
+						<DropdownMenuItem>Mon compte</DropdownMenuItem>
+						<span class="text-xs text-gray-400 px-2">{{ username }}</span>
+					</router-link>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem @click="handleLogOut">Déconnexion</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
 	</header>
 	<main class="max-w-7xl mx-auto pt-10 px-6">
 		<slot></slot>
